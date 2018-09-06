@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccessManager.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -30,13 +31,24 @@ namespace AccessManager.Models
             return false;
         }
 
-        public object Login()
+        public object Login(string token)
         {
-            //username, password login
             //session login
             if (/*validate user*/ false)
             {
                 //return response (set cookie, redirect)
+                string url = HomeController.RedirectUrl;
+            }
+            return null;
+        }
+
+        public object Login(User user)
+        {
+            //username, password login
+            if (/*validate user*/ false)
+            {
+                //return response (set cookie, redirect)
+                string url = HomeController.RedirectUrl;
             }
             return null;
         }

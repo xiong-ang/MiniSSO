@@ -8,9 +8,10 @@ namespace AccessManager.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public static string RedirectUrl;
+        public ActionResult Index(string redirect)
         {
-            ViewBag.Title = "Home Page";
+            RedirectUrl = redirect;
 
             return View();
         }

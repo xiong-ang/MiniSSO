@@ -18,11 +18,27 @@ namespace AccessManager.Controllers
             return SSOServer.Instance.ValidateToken(token);
         }
 
+        [HttpGet]
+        [Route("login")]
+        public object Login()
+        {
+            string token = string.Empty;
+            //get token from cookie
+
+            return SSOServer.Instance.Login(token);
+        }
+
         [HttpPost]
         [Route("login")]
-        public object Login([FromBody]string value)
+        public object Login([FromBody]User user)
         {
-            return SSOServer.Instance.Login();
+            return SSOServer.Instance.Login(user);
         }
+    }
+
+    public class User
+    {
+        public string email;
+        public string password;
     }
 }
