@@ -24,16 +24,27 @@ namespace AccessManager.Models
         }
         #endregion sington
 
-        #region public methods
+        #region public interfaces
         public bool ValidateToken(string token)
         {
             return false;
         }
 
-        public bool ValidateUser()
+        public object Login()
         {
-            return false;
+            //username, password login
+            //session login
+            if (/*validate user*/ false)
+            {
+                //return response (set cookie, redirect)
+            }
+            return null;
         }
-        #endregion public methods
+
+        public void Logout()
+        {
+            //Clear user session
+        }
+        #endregion public interfaces
     }
 }

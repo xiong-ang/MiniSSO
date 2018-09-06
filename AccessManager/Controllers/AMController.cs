@@ -20,14 +20,9 @@ namespace AccessManager.Controllers
 
         [HttpPost]
         [Route("login")]
-        public void Login([FromBody]string value)
+        public object Login([FromBody]string value)
         {
-            //username, password login
-            //session login
-            if(SSOServer.Instance.ValidateUser())
-            {
-                //return response (set cookie, redirect)
-            }
+            return SSOServer.Instance.Login();
         }
     }
 }

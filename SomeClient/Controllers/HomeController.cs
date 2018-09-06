@@ -14,8 +14,8 @@ namespace SomeClient.Controllers
             string token = string.Empty;
             //Get token from cookie
 
-            if (!SSOClient.Instance.IsValidToken(token))
-                SSOClient.Instance.RedirectToAM();
+            if (!SSOClient.Instance.Login(token))
+                return null;
 
             ViewBag.Title = "Home Page";
             return View();
