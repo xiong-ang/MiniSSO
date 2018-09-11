@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web;
 
 namespace AccessManager.Controllers
 {
@@ -20,19 +21,24 @@ namespace AccessManager.Controllers
 
         [HttpGet]
         [Route("login")]
-        public object Login()
+        public IHttpActionResult Login(string redirect)
         {
-            string token = string.Empty;
             //get token from cookie
+            string token = string.Empty;
+            if (null != HttpContext.Current.Request.Cookies["token"])
+            {
+                token = HttpContext.Current.Request.Cookies["token"].Value;
+            }
 
-            return SSOServer.Instance.Login(token);
+            return SSOServer.Instance.Login(token, redirect);
         }
 
         [HttpPost]
         [Route("login")]
-        public object Login([FromBody]User user)
+        public IHttpActionResult Login([FromBody]User user, [FromUri] string redirect)
         {
-            return SSOServer.Instance.Login(user);
+            //set token to cookie
+            return SSOServer.Instance.Login(user, redirect);
         }
     }
 

@@ -25,35 +25,16 @@ namespace SomeClient.Models
         #endregion sington
 
         #region public interface
-        public bool Login(string token)
+        public bool IsValidToken(string token)
         {
-            if(!IsValidToken(token))
-            {
-                RedirectToAM();
-                return false;
-            }
-            //Set cookie
-            return true;
+            return !string.IsNullOrWhiteSpace(token);
         }
 
         public void Logout()
         {
             //Call AM logout
         }
-
         #endregion public interface
-
-        #region public methods
-        private bool IsValidToken(string token)
-        {
-            return false;
-        }
-
-        private void RedirectToAM()
-        {
-
-        }
-        #endregion public methods
 
     }
 }

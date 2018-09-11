@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 
 namespace AccessManager.Models
 {
@@ -31,18 +32,22 @@ namespace AccessManager.Models
             return false;
         }
 
-        public object Login(string token)
+        public IHttpActionResult Login(string token, string redirect)
         {
             //session login
-            if (/*validate user*/ false)
+            if (!string.IsNullOrWhiteSpace(token))
             {
+                HttpContext.Current.Response.Cookies.Add(new HttpCookie("token", token));
                 //return response (set cookie, redirect)
-                string url = HomeController.RedirectUrl;
+                string url = HomeController.RedirectUrl+"?token="+token;
+
+                HttpContext.Current.Response.Redirect(url);
+                return null;
             }
             return null;
         }
 
-        public object Login(User user)
+        public IHttpActionResult Login(User user, string redirect)
         {
             //username, password login
             if (/*validate user*/ false)
