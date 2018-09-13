@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web;
+using System.Web.Http.Results;
 
 namespace AccessManager.Controllers
 {
@@ -18,10 +19,10 @@ namespace AccessManager.Controllers
         {
             return SSOServer.Instance.ValidateToken(token);
         }
-
+        /*
         [HttpGet]
         [Route("login")]
-        public IHttpActionResult Login(string redirect)
+        public HttpResponseMessage Login(string redirect)
         {
             //get token from cookie
             string token = string.Empty;
@@ -30,21 +31,26 @@ namespace AccessManager.Controllers
                 token = HttpContext.Current.Request.Cookies["token"].Value;
             }
 
-            return SSOServer.Instance.Login(token, redirect);
-        }
+            return SSOServer.Instance.Login(token, HomeController.RedirectUrl);
+        }*/
 
         [HttpPost]
         [Route("login")]
-        public IHttpActionResult Login([FromBody]User user, [FromUri] string redirect)
+        public HttpResponseMessage Login(User user)
         {
-            //set token to cookie
-            return SSOServer.Instance.Login(user, redirect);
-        }
-    }
+            //return SSOServer.Instance.Login(user, HomeController.RedirectUrl);
 
-    public class User
-    {
-        public string email;
-        public string password;
+            string token = Identify.Valid(user);
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                HttpContext.Current.Response.Cookies.Add(new HttpCookie("token", token));
+
+                var response = Request.CreateResponse(HttpStatusCode.Redirect);
+                response.Headers.Location = new Uri(HomeController.RedirectUrl + "?token=" + token);
+                //response.Headers.Add("Access-Control-Allow-Origin", "*");
+                return response;
+            }
+            return null;
+        }
     }
 }

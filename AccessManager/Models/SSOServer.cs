@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 
@@ -32,7 +34,7 @@ namespace AccessManager.Models
             return false;
         }
 
-        public IHttpActionResult Login(string token, string redirect)
+        public HttpResponseMessage Login(string token, string redirect)
         {
             //session login
             if (!string.IsNullOrWhiteSpace(token))
@@ -47,16 +49,21 @@ namespace AccessManager.Models
             return null;
         }
 
-        public IHttpActionResult Login(User user, string redirect)
+        /*public HttpResponseMessage Login(User user, string redirect)
         {
-            //username, password login
-            if (/*validate user*/ false)
+            string token = Identify.Valid(user);
+            if (!string.IsNullOrWhiteSpace(token))
             {
+                HttpContext.Current.Response.Cookies.Add(new HttpCookie("token", token));
                 //return response (set cookie, redirect)
-                string url = HomeController.RedirectUrl;
+                string url = HomeController.RedirectUrl+"?token="+token;
+
+                var response = Request.CreateResponse(HttpStatusCode.Found);
+                response.Headers.Location = new Uri("http://www.google.com");
+                return response;
             }
             return null;
-        }
+        }*/
 
         public void Logout()
         {
@@ -65,3 +72,14 @@ namespace AccessManager.Models
         #endregion public interfaces
     }
 }
+
+
+/*
+ * How to redirect in web api
+public HttpResponseMessage Get()
+{
+    var response = Request.CreateResponse(HttpStatusCode.Found);
+    response.Headers.Location = new Uri("http://www.google.com");
+    return response;
+}
+*/
