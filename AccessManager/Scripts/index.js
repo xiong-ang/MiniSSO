@@ -29,6 +29,11 @@ app.controller("myCtrl", ["$scope", "loginSvc", function ($scope, loginSvc) {
     };
 
     $scope.login = function (user) {
-        loginSvc.login(user);
+        loginSvc.login(user).then(
+            function successCallback(response) {
+                if (response.data) {
+                    window.location.href = response.data;
+                }
+        });
     }
 }]);

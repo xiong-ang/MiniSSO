@@ -22,5 +22,7 @@
 ## 问题总结    
 
 + JWT
-+ 重定向Redirect      
++ 重定向Redirect（MVC/WEB API）      
++ 跨域请求实现
++ Cookie读写
 + UnitTest

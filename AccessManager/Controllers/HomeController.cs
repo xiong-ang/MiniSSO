@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccessManager.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,12 @@ namespace AccessManager.Controllers
         public ActionResult Index(string redirect)
         {
             RedirectUrl = redirect;
+            string token = Request.Cookies["token"] == null ? string.Empty : Request.Cookies["token"].Value;
+            if (!string.IsNullOrWhiteSpace(token) && !string.IsNullOrWhiteSpace(Identify.Valid(token)))
+            {
+                string redirectUrl = HomeController.RedirectUrl + "?token=" + token;
+                return Redirect(redirectUrl);
+            }
 
             return View();
         }

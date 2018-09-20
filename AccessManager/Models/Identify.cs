@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace AccessManager.Models
 {
@@ -34,10 +35,24 @@ namespace AccessManager.Models
         public static string Valid(string token)
         {
             string json = Jose.JWT.Decode(token, secretKey);
-            if (false)
-                return string.Empty;
-            return token;
 
+            TokenInfo tokenInfo = JsonConvert.DeserializeObject<TokenInfo>(json);
+
+            if (_identities.Keys.Contains(tokenInfo.email))
+            {
+                //TODO: verify time
+                if(true)
+                {
+                    return token;
+                }
+            }
+            return string.Empty;
         }
+    }
+
+    public class TokenInfo
+    {
+        public string email;
+        public string exp;
     }
 }

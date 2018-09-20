@@ -16,9 +16,8 @@ namespace SomeClient.Controllers
                 //Get token from cookie
                 token = Request.Cookies["token"].Value;
             }
-            
 
-            string amUrl = "http://localhost:44444";
+            string amUrl = "http://localhost:44444?redirect=http://localhost:55555";
             if (!SSOClient.Instance.IsValidToken(token))
                 return Redirect(amUrl);
 
@@ -26,6 +25,9 @@ namespace SomeClient.Controllers
             //Set token to cookie
             HttpCookie cookie = new HttpCookie("token", token);
             Response.Cookies.Add(cookie);
+            Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            Response.Headers.Add("Access-Control-Allow-Methods", "OPTIONS,POST,GET");
+            Response.Headers.Add("Access-Control-Allow-Headers", "x-auth-token,Origin,Access-Token,X-Requested-With,Content-Type, Accept");
             return View();
         }
     }
