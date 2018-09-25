@@ -11,7 +11,7 @@ using AccessManager.Controllers;
 namespace AccessManager.Tests.Controllers
 {
     [TestClass]
-    public class AMControllerTest
+    public class AMControllerTest1
     {
         [TestMethod]
         public void Validate()

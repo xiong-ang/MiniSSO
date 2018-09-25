@@ -17,6 +17,7 @@ namespace AccessManager.Models
 
         private static byte[] secretKey = new byte[] { 164, 60, 194, 0, 161, 189, 41, 38, 130, 89, 141, 164, 45, 170, 159, 209, 69, 137, 243, 216, 191, 131, 47, 250, 32, 107, 231, 117, 37, 158, 225, 234 };
 
+        private static DateTime tokenAcquiredTime;
 
         public static string Valid(User user)
         {
@@ -29,19 +30,28 @@ namespace AccessManager.Models
                 { "exp", 1300819380 }
             };
 
+            tokenAcquiredTime = DateTime.Now;
             return Jose.JWT.Encode(payload, secretKey, JwsAlgorithm.HS256);
         }
 
         public static string Valid(string token)
         {
-            string json = Jose.JWT.Decode(token, secretKey);
+            string json;
+            try
+            {
+                json = Jose.JWT.Decode(token, secretKey);
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
 
             TokenInfo tokenInfo = JsonConvert.DeserializeObject<TokenInfo>(json);
 
             if (_identities.Keys.Contains(tokenInfo.email))
             {
                 //TODO: verify time
-                if(true)
+                if (DateTime.Now < tokenAcquiredTime.AddMilliseconds(int.Parse(tokenInfo.exp) - 5 * 60*1000)) ;
                 {
                     return token;
                 }

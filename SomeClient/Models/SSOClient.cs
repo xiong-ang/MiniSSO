@@ -27,7 +27,13 @@ namespace SomeClient.Models
         #region public interface
         public bool IsValidToken(string token)
         {
-            return !string.IsNullOrWhiteSpace(token);
+            if (string.IsNullOrWhiteSpace(token))
+                return false;
+
+            string answer = string.Empty;
+            AjaxHelper.GetCall("http://localhost:44444/am/validate?token=" + token, out answer);
+
+            return string.Equals(answer, "true", StringComparison.OrdinalIgnoreCase);
         }
 
         public void Logout()

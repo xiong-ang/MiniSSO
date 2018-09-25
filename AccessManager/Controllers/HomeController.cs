@@ -12,12 +12,15 @@ namespace AccessManager.Controllers
         public static string RedirectUrl;
         public ActionResult Index(string redirect)
         {
-            RedirectUrl = redirect;
-            string token = Request.Cookies["token"] == null ? string.Empty : Request.Cookies["token"].Value;
-            if (!string.IsNullOrWhiteSpace(token) && !string.IsNullOrWhiteSpace(Identify.Valid(token)))
+            if(!string.IsNullOrWhiteSpace(redirect))
             {
-                string redirectUrl = HomeController.RedirectUrl + "?token=" + token;
-                return Redirect(redirectUrl);
+                RedirectUrl = redirect;
+                string token = Request.Cookies["token"] == null ? string.Empty : Request.Cookies["token"].Value;
+                if (!string.IsNullOrWhiteSpace(token) && !string.IsNullOrWhiteSpace(Identify.Valid(token)))
+                {
+                    string redirectUrl = HomeController.RedirectUrl + "?token=" + token;
+                    return Redirect(redirectUrl);
+                }
             }
 
             return View();
