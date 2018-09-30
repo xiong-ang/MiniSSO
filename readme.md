@@ -5,9 +5,6 @@
 ## 系统目标  
 
 + 实现基于JWT的SSO
-+ 界面美观
-+ 对SSO的功能块进行抽象    
-+ 测试驱动开发
 
 ## 功能划分
 
@@ -23,6 +20,10 @@
 
 + JWT
 + 重定向Redirect（MVC/WEB API）      
+  + get请求可以直接重定向
+  + post可以返回链接，让前端进行重定向                 
 + 跨域请求实现
+  + Access-Control-Allow-Origin     
+  + Access-Control-Allow-Methods
+  + Access-Control-Allow-Headers
 + Cookie读写
-+ UnitTest
